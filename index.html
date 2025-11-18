@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title id="pageTitle">Configuração</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-white">
+        <div class="container d-flex align-items-center justify-content-between">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <span class="fs-5 fw-bold" id="navStoreName">Tendinha da Florzinha</span>
+            </a>
+            <div>
+                <button id="btnNovoProduto" class="btn btn-outline-primary me-2">Novo Produto</button>
+                <button id="btnCarrinho" class="btn btn-outline-secondary me-2 position-relative">
+                    Carrinho
+                    <span id="contadorCarrinho" class="badge bg-danger rounded-pill position-absolute" style="top:-6px; right:-8px; display:none;">0</span>
+                </button>
+                <button id="btnLogin" class="btn btn-outline-success me-2">Entrar</button>
+                <button id="btnLogout" class="btn btn-outline-danger d-none">Sair</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-5" id="app"></main>
+
+    <!-- Setup Inicial -->
+    <div class="modal fade" id="setupModal" tabindex="-1" aria-labelledby="setupModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="setupModalLabel">Setup Inicial - Criar Loja</h5>
+                </div>
+                <div class="modal-body">
+                    <div id="authMessage"></div>
+                    <form id="setupForm" novalidate>
+                        <div class="mb-3">
+                            <label for="storeName" class="form-label">Nome da Loja</label>
+                            <input type="text" class="form-control" id="storeName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="emailDono" class="form-label">Email do Dono</label>
+                            <input type="email" class="form-control" id="emailDono" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="senhaDono" class="form-label">Senha (mínimo 6 caracteres)</label>
+                            <input type="password" class="form-control" id="senhaDono" minlength="6" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="whatsapp" class="form-label">WhatsApp (ex: 5521999999999)</label>
+                            <input type="tel" class="form-control" id="whatsapp" pattern="^55\\d{11}$" required>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Criar Loja</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de cadastro de produto -->
+    <div class="modal fade" id="produtoModal" tabindex="-1" aria-labelledby="produtoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="produtoModalLabel">Cadastrar Produto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="produtoForm" novalidate>
+                        <div class="mb-3">
+                            <label for="produtoNome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="produtoNome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="produtoPreco" class="form-label">Preço (R$)</label>
+                            <input type="number" step="0.01" min="0" class="form-control" id="produtoPreco" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="produtoDesc" class="form-label">Descrição</label>
+                            <textarea class="form-control" id="produtoDesc" rows="2"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="produtoImgFile" class="form-label">Imagem (upload opcional)</label>
+                            <input type="file" accept="image/*" class="form-control" id="produtoImgFile">
+                            <div class="form-text">Você pode enviar uma imagem do seu computador.</div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Salvar Produto</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer" class="position-fixed top-0 end-0 p-3" style="z-index:1080;"></div>
+
+    <!-- Modal login -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Entrar como Dono</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm" novalidate>
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Entrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="carrinhoModal" tabindex="-1" aria-labelledby="carrinhoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="carrinhoModalLabel">Seu Carrinho</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body" id="carrinhoModalBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button id="btnLimparCarrinho" type="button" class="btn btn-outline-danger">Limpar Carrinho</button>
+                    <button id="btnCheckout" type="button" class="btn btn-primary">Finalizar Compra</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>
